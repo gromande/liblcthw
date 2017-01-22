@@ -1,4 +1,4 @@
-#include "minuit.h"
+#include "minunit.h"
 #include <lcthw/list.h>
 #include <assert.h>
 
@@ -14,8 +14,9 @@ char *test_create() {
 }
 
 char *test_destroy() {
-  List_clear_destroy(list);
-  return null;
+  //List_clear_destroy(list);
+  List_destroy(list);
+  return NULL;
 }
 
 char *test_push_pop() {
@@ -37,10 +38,10 @@ char *test_push_pop() {
   char *val = List_pop(list);
   mu_assert(val == test3, "Wrong value on pop");
 
-  *val = List_pop(list);
+  val = List_pop(list);
   mu_assert(val == test2, "Wrong value on pop");
 
-  *val = List_pop(list);
+  val = List_pop(list);
   mu_assert(val == test1, "Wrong value on pop");
   mu_assert(List_count(list) == 0, "Wrong count after pop.");
 
@@ -64,5 +65,53 @@ char *test_shift_unshift() {
   mu_assert(List_count(list) == 3, "Wrong count on unshift.");
 
   char *val = List_shift(list);
-  mu_assert(val == test3, "Wrong value on pop");
+  mu_assert(val == test3, "Wrong value on shift");
+
+  val = List_shift(list);
+  mu_assert(val == test2, "Wrong value on shift");
+
+  val = List_shift(list);
+  mu_assert(val == test1, "Wrong value on shift");
+  mu_assert(List_count(list) == 0, "Wrong count after shift");
+
+  return NULL;
 }
+
+char *test_remove() {
+  mu_assert(List_count(list) == 0, "Wrong count before test.");
+
+  List_unshift(list, test1);
+  mu_assert(List_first(list) == test1, "Wrong first value.");
+  mu_assert(List_last(list) == test1, "Wrong last value.");
+
+  List_unshift(list, test2);
+  mu_assert(List_first(list) == test2, "Wrong first value.");
+  mu_assert(List_last(list) == test1, "Wrong last value.");
+
+  List_unshift(list, test3);
+  mu_assert(List_first(list) == test3, "Wrong first value.");
+  mu_assert(List_last(list) == test1, "Wrong last value.");
+  mu_assert(List_count(list) == 3, "Wrong count on unshift.");
+
+  char *val = List_remove(list, list->first->next);
+  mu_assert(val == test2, "Wrong value on remove");
+  mu_assert(List_count(list) == 2, "Wrong count after remove");
+  mu_assert(List_first(list) == test3, "Wrong first value after remove");
+  mu_assert(List_last(list) == test1, "Wrong last value after remove");
+
+  return NULL;
+}
+
+char *all_tests() {
+  mu_suite_start();
+
+  mu_run_test(test_create);
+  mu_run_test(test_push_pop);
+  mu_run_test(test_shift_unshift);
+  mu_run_test(test_remove);
+  mu_run_test(test_destroy);
+
+  return NULL;
+}
+
+RUN_TESTS(all_tests);

@@ -2,3 +2,4 @@ build/
 *.o
 *.dSYM
 *.log
+tests/*_tests

@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <lcthw/list.h>
 
-int List_bubble_sort(List *words, List_compare cmp);
-List *List_merge_sort(List *words, List_compare cmp);
+int List_bubble_sort(List *list, List_compare cmp);
+List *List_merge_sort(List *list, List_compare cmp);
 
 #endif

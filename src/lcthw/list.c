@@ -9,7 +9,7 @@ List *List_create() {
 
 void List_destroy(List *list) {
   printf("Inside List_destroy\n");
-  LIST_FOREACH(list, first, next, cur) {
+  LIST_FOREACH(list, cur) {
     if (cur->prev) {
       free(cur->prev);
     }
@@ -20,7 +20,7 @@ void List_destroy(List *list) {
 
 void List_clear(List *list) {
   printf("Inside List_clear\n");
-  LIST_FOREACH(list, first, next, cur) {
+  LIST_FOREACH(list, cur) {
     printf("Clearing value %s\n", cur->value);
     free(cur->value);
   }

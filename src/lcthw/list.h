@@ -16,8 +16,6 @@ typedef struct List {
   ListNode *last;
 } List;
 
-typedef int (*List_compare) (const void *a, const void *b);
-
 List *List_create();
 void List_destroy(List *list);
 void List_clear(List *list);

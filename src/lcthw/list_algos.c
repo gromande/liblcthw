@@ -17,16 +17,18 @@ error:
 int List_bubble_sort(List *list, List_compare cmp) {
   check_mem(list);
 
-  int swapped = 1;
-  while (swapped) {
-    swapped = 0;
+  int sorted = 1;
+
+  if (List_count(list) <= 1) return 0; //Already sorted
+  do {
+    sorted = 1;
     LIST_FOREACH(list, cur) {
-      if (cur->next != NULL && cmp(cur->value, cur->next->value) > 0) {
+      if (cur->next && cmp(cur->value, cur->next->value) > 0) {
         List_swap(cur);
-        swapped = 1;
+        sorted = 0;
       }
     }
-  }
+  } while (!sorted);
 
   return 0;
 
@@ -61,6 +63,8 @@ List *List_merge(List *left, List *right, List_compare cmp) {
     List_push(result, rightCur->value);
   }
 
+  List_destroy(left);
+  List_destroy(right);
   return result;
 
 error:
@@ -97,7 +101,6 @@ List *List_merge_sort(List *list, List_compare cmp) {
   // Then merge the now-sorted sublists.
   return List_merge(left, right, cmp);
 
-  return NULL;
 error:
   return list;
 }

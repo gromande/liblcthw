@@ -41,6 +41,7 @@ List *List_merge(List *left, List *right, List_compare cmp) {
   check_mem(right);
 
   List *result = List_create();
+  check_mem(result);
 
   while (List_count(left) > 0 && List_count(right) > 0) {
     void *leftFirst = List_first(left);

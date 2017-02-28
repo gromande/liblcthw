@@ -65,7 +65,7 @@ error:
 
 void DArray_contract(DArray *array) {
   check_mem(array);
-  int new_size = array->end < array->expand_rate ? (int) array->expand_rate : array->end;
+  int new_size = array->end < array->expand_rate ? (int) array->expand_rate : array->end + 1;
   check(DArray_resize(array, new_size) != -1, "Unable to contract array.");
 error:
   return;
@@ -76,8 +76,7 @@ void DArray_push(DArray *array, void *element) {
   if (DArray_count(array) == DArray_max(array)) {
     DArray_expand(array);
   }
-  DArray_set(array, DArray_end(array), element);
-  array->end++;
+  DArray_set(array, DArray_end(array) + 1, element);
 error:
   return;
 }
@@ -85,7 +84,7 @@ error:
 void *DArray_pop(DArray *array) {
   check_mem(array);
   check(DArray_count(array) > 0, "darray attempt to pop form empty array.");
-  void *element = DArray_remove(array, array->end - 1);
+  void *element = DArray_remove(array, array->end);
   array->end--;
   return element;
 error:

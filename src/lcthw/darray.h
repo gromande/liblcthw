@@ -20,17 +20,17 @@ void DArray_contract(DArray *array);
 void DArray_push(DArray *array, void *element);
 void *DArray_pop(DArray *array);
 
-#define DArray_last(A) ((A)->contents[(A)->end - 1])
+#define DArray_last(A) ((A)->contents[(A)->end])
 #define DArray_first(A) ((A)->contents[0])
 #define DArray_end(A) ((A)->end)
-#define DArray_count(A) DArray_end(A)
+#define DArray_count(A) DArray_end(A) + 1
 #define DArray_max(A) ((A)->max)
 #define DArray_free(E) free(E);
 
 #define DEFAULT_EXPAND_RATE 300
 
 static inline void DArray_set(DArray *array, int i, void *element) {
-  check(i < array->max, "darray attempt to set past max.");
+  check(i <= array->max, "darray attempt to set past max.");
   if (i > array->end)
     array->end = i;
   array->contents[i] = element;
@@ -39,14 +39,14 @@ error:
 }
 
 static inline void *DArray_get(DArray *array, int i) {
-  check(i < array->end, "darray attempt to get past end.");
+  check(i <= array->end, "darray attempt to get past end.");
   return array->contents[i];
 error:
   return NULL;
 }
 
 static inline void *DArray_remove(DArray *array, int i) {
-  check(i < array->end, "darray attempt to remove past end.");
+  check(i <= array->end, "darray attempt to remove past end.");
   void *element = array->contents[i];
   array->contents[i] = NULL;
   return element;
